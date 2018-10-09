@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import  GenerateQuote  from  './Components/GenerateQuote';
+import  DisplayQuote  from  './Components/DisplayQuote';
+import Axios from 'axios'
 
+ 
+const url = "https://thesimpsonsquoteapi.glitch.me/quotes";
 class App extends Component {
+  
+  state = {
+    quote:[]
+  };
+
+  getCitation() {
+    // Récupération de l'employé via fetch
+    Axios(url).then(res => this.setState( this.setState({quote:res.data[0]})))
+}
+
+componentDidMount(){
+  this.getCitation();
+}
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <GenerateQuote selectQuote ={() => this.getCitation()}  />
+        <DisplayQuote  quote={this.state.quote}  />
       </div>
     );
   }
